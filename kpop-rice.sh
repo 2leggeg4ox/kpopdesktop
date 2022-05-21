@@ -4,6 +4,7 @@
 # It's gonna walk the user through some tweaks to their system, starting from the light and newbie-focused (color themes and rounded corners)
 # and getting increasingly Arch-y until we arrive at direct and literal kernel management, in ascending order of difficulty.
 
+cd ~
 clear
 echo "~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~"
 echo "  _  __          ____                ____             __ _       "
@@ -36,16 +37,18 @@ echo "These will be downloaded from the official Pop repositories via apt."
 echo
 read -p "Would you like to install this app bundle? [y/n]" varAppBundle
 if [ $varAppBundle == 'y']; then
-	sudo apt install -y micro neofetch htop ranger cbonsai cmatrix lynx googler bmon caca-utils
+	sudo apt install -y micro neofetch htop ranger cbonsai cmatrix lynx googler bmon
 fi
 echo
+
+# TODO: make branding a question.
 
 # ID
 echo "alias neofetch='neofetch --w3m --source ~/.config/neofetch/wave.jpg'" >> ~/.bashrc
 source ~/.bashrc
 sudo hostname "k-pop"
 sudo cp ./os-release /etc/os-release
-sudo cp neofetch.conf ~/.config/neofetch/config.conf
+sudo cp ./neofetch.conf ~/.config/neofetch/config.conf
 sudo cp ./wave.jpg ~/.config/neofetch/wave.jpg
 sudo cp ./motd /etc/motd
 
@@ -78,6 +81,7 @@ echo
 echo "Would you like a tiling window manager? Tiling window managers are famous on reddit (see www.reddit.com/r/unixporn for examples),"
 echo "for their efficient, sleek designs maximizing usable screen real estate. We'll be going with Krohnkite here,"
 echo "but feel to try bismuth, or other WMs later! A word of advice: Keybinds aren't essential, but come highly recommended."
+echo "This isn't everyone's cup of tea, but it is ours - we love it."
 echo "So be sure and verify you keyboard shortcuts after reboot. This will install from https://github.com/esjeon/krohnkite"
 echo
 read -p "Would you like to install Krohnkite tiling window manager for KDE Plasma? [y/n]" varKrohn
@@ -89,18 +93,13 @@ if [ $varKrohn == 'y']; then
 	echo "This may have activated now, it may not have. If you're screen looks weird, head to the system settings after restart."
 	echo "System Settings > Window Management > KWin Scripts; there you'll see Krohnkite and it's little settings gear to the right."
 	echo "We took the the liberty of installing the settings button, which isn't default for some reason, for easy access."
-	echo "And if you hate it, just turn it off from the same menu. Believe us, it's not everyone's cup of tea, even if it is ours."
+	echo "And if you hate it, just turn it off from the same menu."
 	echo
+	sleep 5s
 fi
-echo	
+echo
 
-# Powerline; source: https://github.com/b-ryan/powerline-shell
-echo "Since we're on the shell now, how about about a powerline? It's a prompt for your terminal that MOSTLY serves as terminal bling,"
-echo "with some git integration features for devs and tinkerers alike. We'll set this up for the bash shell."
-echo "This will install from https://github.com/b-ryan/powerline-shell and add some lines to your ~/.bashrc file."
-echo 
-
-# TODO : Finish this up. We can even poll for shell, and install for each.
+# TODO: Make this just ask which shell they'd prefer
 
 # Xonsh shell; official repositories // powerline source: https://github.com/jnoortheen/xontrib-powerline3
 echo "If we're being honest, Bash is a sufficent shell for most users. However, the power users among us might prefer"
@@ -122,10 +121,22 @@ if [ $varInstXonsh == 'y']; then
 		echo "We're gonna wait for the full system reboot later to login to xonsh. Just an FYI."
 		echo
 	fi
+fi
 	
-	# TODO : Needs powerline question asked.
-	# TODO : Needs neofetch aliasing performed for xonsh
+	# ROADMAP : Needs neofetch aliasing performed for xonsh	
 
+# TODO: Switch case for shell selected last question.
+
+# Powerline; source: https://github.com/b-ryan/powerline-shell
+echo "How about about a powerline for your terminal? It's a prompt that MOSTLY serves as terminal bling,"
+echo "with some git integration features for devs and tinkerers alike. We'll set this up for the bash shell."
+echo "This will install from https://github.com/b-ryan/powerline-shell and add some lines to your ~/.bashrc file."
+echo 
+read -p "Would you like to install a powerline? [y/n]" varPowerLine
+if [ $varPowerLine == 'y']; then
+	sudo pip install powerline-shell
+	# neofetch alias stashed in bash-pl
+	cat ./bashrc >> ~/.bashrc
 fi
 
 # Deb-Get; source: https://github.com/wimpysworld/deb-get
@@ -156,7 +167,7 @@ echo
 echo "Would you like to upgrade to the dev/staging channels? This comes with a fair warning: unless you're an advanced Linux"
 echo "user already, this may not be for you. These are high-volatility software channels, wherein the actual devs are actively"
 echo "building. Brings a little more Arch-ness home to Pop_OS! As you're guaranteed to find bugs, don't be afraid to file reports"
-echo "on Launchpad. In fact, it really helps out. Source for this information: https://apt.pop-os.org/"
+echo "on https://github.com/pop-os/pop/issues. In fact, it really helps out. Source for these commands: https://apt.pop-os.org/"
 echo
 read -p "Would you like to add the development channels to K-Pop? [y/n]" varDevChannels
 if [ $varDevChannels == 'y']; then

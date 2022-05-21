@@ -1,0 +1,4 @@
+aliases['neofetch'] = 'neofetch --w3m --source ~/.config/neofetch/wave.jpg'
+aliases['please'] = 'sudo'
+aliases['cleanupdate'] = 'sudo apt autoremove -y && sudo apt autoclean -y && sudo apt update && sudo apt upgrade -y'
+aliases['getnews'] = 'curl us.getnews.tech'
